@@ -1,1 +1,293 @@
-[]
+[
+    {
+        "id": "80ef1349e05a0eab",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "a4bef7ed8db80639",
+        "type": "sqlitedb",
+        "db": "/data/bbdd.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "2542c44b886edf9f",
+        "type": "sqlitedb",
+        "db": "/home/pi/BBDD/datos15.db",
+        "mode": "RWC"
+    },
+    {
+        "id": "80432c8079eb3106",
+        "type": "sqlite",
+        "z": "80ef1349e05a0eab",
+        "mydb": "a4bef7ed8db80639",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 460,
+        "y": 200,
+        "wires": [
+            [
+                "1feabbcbdeb852d3"
+            ]
+        ]
+    },
+    {
+        "id": "acb5479b46200079",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "15",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 200,
+        "wires": [
+            [
+                "da8dece2be573a04"
+            ]
+        ]
+    },
+    {
+        "id": "da8dece2be573a04",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO datos_aleatorios ('fecha','dato') VALUES ('\"&$now('[M01]/[D01]/[Y0001] [H01]:[m01]:[s01]','+0200')&\"','\"&$random()&\"')\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 200,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "1feabbcbdeb852d3",
+        "type": "debug",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 670,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "8026c6300b9e0c4c",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "CREATE TABLE \"datos_aleatorios\" ( \"id\" INTEGER UNIQUE, \"fecha\" TEXT, \"dato\" TEXT, PRIMARY KEY(\"id\" AUTOINCREMENT) );",
+        "x": 90,
+        "y": 80,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "e7010d6bd67f6655",
+        "type": "comment",
+        "z": "80ef1349e05a0eab",
+        "name": "Inserta datos cada 15 segundos",
+        "info": "",
+        "x": 170,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "a4eafa7556bb7b8e",
+        "type": "comment",
+        "z": "80ef1349e05a0eab",
+        "name": "Crea la tabla necesaria para insertar los datos",
+        "info": "",
+        "x": 190,
+        "y": 40,
+        "wires": []
+    },
+    {
+        "id": "0480e06a43db4c0b",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "SELECT * FROM datos_aleatorios",
+                "tot": "str"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 300,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "56ef026a47e3eee4",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "0480e06a43db4c0b",
+                "0480e06a43db4c0b"
+            ]
+        ]
+    },
+    {
+        "id": "fee89fee6a1ef74e",
+        "type": "comment",
+        "z": "80ef1349e05a0eab",
+        "name": "Saca todos los datos de la tabla",
+        "info": "",
+        "x": 170,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "f15b75ac8e0f72c7",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "SELECT * FROM datos_aleatorios WHERE dato > 0.8",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 280,
+        "y": 400,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "1f9107834c8ad0ef",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 400,
+        "wires": [
+            [
+                "f15b75ac8e0f72c7",
+                "f15b75ac8e0f72c7"
+            ]
+        ]
+    },
+    {
+        "id": "992d3606222d9d65",
+        "type": "comment",
+        "z": "80ef1349e05a0eab",
+        "name": "Consulta los datos mayores que 0.8",
+        "info": "",
+        "x": 180,
+        "y": 360,
+        "wires": []
+    }
+]
