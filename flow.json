@@ -8,6 +8,14 @@
         "env": []
     },
     {
+        "id": "9c8508be57c9f0b2",
+        "type": "tab",
+        "label": "InfluxDB",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
         "id": "8ffcd10d31f07cbf",
         "type": "group",
         "z": "80ef1349e05a0eab",
@@ -24,12 +32,14 @@
             "a9c1843274cf3473",
             "fee89fee6a1ef74e",
             "8ba13418584fe6f3",
-            "5405d7c9efdbd4e5"
+            "5405d7c9efdbd4e5",
+            "544a38a53d6bd471",
+            "3c3e24fb71e9acde"
         ],
         "x": 14,
         "y": 19,
         "w": 492,
-        "h": 282
+        "h": 362
     },
     {
         "id": "2f23fe46981e0267",
@@ -43,18 +53,42 @@
         "nodes": [
             "80432c8079eb3106",
             "e7010d6bd67f6655",
-            "cae255bd8461499d",
             "c5629d6988eb4d75",
             "0a9f862ee24d6605",
             "fcabf4f26602db06",
             "6a065deadd73fbe2",
             "d9e3750492c15a7a",
-            "fdad1b13d2b01654"
+            "fdad1b13d2b01654",
+            "89e8d6cd79661cb9",
+            "8e19d4ac29baaa12",
+            "debc0aec9c1b35be",
+            "5946ac18d6372251"
         ],
         "x": 14,
-        "y": 319,
-        "w": 812,
+        "y": 399,
+        "w": 892,
         "h": 222
+    },
+    {
+        "id": "5fb3bb4623a1533f",
+        "type": "group",
+        "z": "9c8508be57c9f0b2",
+        "name": "Grabar en InfluxDB",
+        "style": {
+            "fill": "#ffbfbf",
+            "label": true
+        },
+        "nodes": [
+            "b76931bc6c024737",
+            "9dd806211bc32df2",
+            "648d0d641004f804",
+            "fb8da6d9a50c9b0c",
+            "17a0c8bda65efa93"
+        ],
+        "x": 134,
+        "y": 19,
+        "w": 632,
+        "h": 142
     },
     {
         "id": "a4bef7ed8db80639",
@@ -90,6 +124,20 @@
         "sessionExpiry": ""
     },
     {
+        "id": "e109da52ead82d4a",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://enriquecrespo.com:8086",
+        "rejectUnauthorized": true
+    },
+    {
         "id": "80432c8079eb3106",
         "type": "sqlite",
         "z": "80ef1349e05a0eab",
@@ -98,12 +146,10 @@
         "sqlquery": "prepared",
         "sql": "INSERT INTO \"datos_raspberry\" (\"fecha\", \"raspberry\",\"CPU\",\"Temperatura\",\"Memoria\") VALUES (CURRENT_TIMESTAMP, $raspberry, $CPU, $Temperatura, $Memoria);",
         "name": "",
-        "x": 720,
-        "y": 400,
+        "x": 800,
+        "y": 480,
         "wires": [
-            [
-                "cae255bd8461499d"
-            ]
+            []
         ]
     },
     {
@@ -139,7 +185,7 @@
         "name": "Inserta datos",
         "info": "",
         "x": 110,
-        "y": 360,
+        "y": 440,
         "wires": []
     },
     {
@@ -158,9 +204,9 @@
         "type": "comment",
         "z": "80ef1349e05a0eab",
         "g": "8ffcd10d31f07cbf",
-        "name": "Saca todos los datos de la tabla",
+        "name": "Consulta todos los datos de la tabla",
         "info": "",
-        "x": 170,
+        "x": 180,
         "y": 220,
         "wires": []
     },
@@ -190,24 +236,6 @@
         ]
     },
     {
-        "id": "cae255bd8461499d",
-        "type": "debug",
-        "z": "80ef1349e05a0eab",
-        "g": "2f23fe46981e0267",
-        "name": "",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 710,
-        "y": 500,
-        "wires": []
-    },
-    {
         "id": "79e82be227be63a4",
         "type": "comment",
         "z": "80ef1349e05a0eab",
@@ -233,10 +261,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 170,
-        "y": 400,
+        "y": 480,
         "wires": [
             [
-                "fcabf4f26602db06"
+                "5946ac18d6372251"
             ]
         ]
     },
@@ -244,6 +272,7 @@
         "id": "0a9f862ee24d6605",
         "type": "mqtt in",
         "z": "80ef1349e05a0eab",
+        "d": true,
         "g": "2f23fe46981e0267",
         "name": "",
         "topic": "cursomqtt/casa/raspberrypi3/#",
@@ -255,10 +284,10 @@
         "rh": 0,
         "inputs": 0,
         "x": 160,
-        "y": 460,
+        "y": 540,
         "wires": [
             [
-                "6a065deadd73fbe2"
+                "debc0aec9c1b35be"
             ]
         ]
     },
@@ -343,11 +372,12 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 370,
-        "y": 400,
+        "x": 470,
+        "y": 480,
         "wires": [
             [
-                "d9e3750492c15a7a"
+                "d9e3750492c15a7a",
+                "8e19d4ac29baaa12"
             ]
         ]
     },
@@ -372,11 +402,12 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 370,
-        "y": 460,
+        "x": 470,
+        "y": 540,
         "wires": [
             [
-                "fdad1b13d2b01654"
+                "fdad1b13d2b01654",
+                "89e8d6cd79661cb9"
             ]
         ]
     },
@@ -421,8 +452,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 520,
-        "y": 400,
+        "x": 620,
+        "y": 480,
         "wires": [
             [
                 "80432c8079eb3106"
@@ -470,11 +501,284 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 520,
-        "y": 460,
+        "x": 620,
+        "y": 540,
         "wires": [
             [
                 "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "544a38a53d6bd471",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
+        "name": "",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "00 01 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "DELETE FROM datos_raspberry WHERE unixepoch(fecha) < unixepoch('now','-1 months')",
+        "x": 190,
+        "y": 340,
+        "wires": [
+            [
+                "a9c1843274cf3473"
+            ]
+        ]
+    },
+    {
+        "id": "3c3e24fb71e9acde",
+        "type": "comment",
+        "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
+        "name": "Borra datos más antiguos de un mes",
+        "info": "",
+        "x": 180,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "89e8d6cd79661cb9",
+        "type": "link out",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "raspberrypi3",
+        "mode": "link",
+        "links": [
+            "648d0d641004f804"
+        ],
+        "x": 555,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "8e19d4ac29baaa12",
+        "type": "link out",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "raspberrypi",
+        "mode": "link",
+        "links": [
+            "9dd806211bc32df2"
+        ],
+        "x": 545,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "debc0aec9c1b35be",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 335,
+        "y": 540,
+        "wires": [
+            [
+                "6a065deadd73fbe2"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "5946ac18d6372251",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "$number(payload)",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 335,
+        "y": 480,
+        "wires": [
+            [
+                "fcabf4f26602db06"
+            ]
+        ],
+        "l": false
+    },
+    {
+        "id": "b76931bc6c024737",
+        "type": "influxdb out",
+        "z": "9c8508be57c9f0b2",
+        "g": "5fb3bb4623a1533f",
+        "influxdb": "e109da52ead82d4a",
+        "name": "",
+        "measurement": "",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "aprendiendonodered",
+        "bucket": "aprendiendonodered",
+        "x": 590,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "9dd806211bc32df2",
+        "type": "link in",
+        "z": "9c8508be57c9f0b2",
+        "g": "5fb3bb4623a1533f",
+        "name": "",
+        "links": [
+            "8e19d4ac29baaa12"
+        ],
+        "x": 175,
+        "y": 60,
+        "wires": [
+            [
+                "fb8da6d9a50c9b0c"
+            ]
+        ]
+    },
+    {
+        "id": "648d0d641004f804",
+        "type": "link in",
+        "z": "9c8508be57c9f0b2",
+        "g": "5fb3bb4623a1533f",
+        "name": "",
+        "links": [
+            "89e8d6cd79661cb9"
+        ],
+        "x": 175,
+        "y": 120,
+        "wires": [
+            [
+                "17a0c8bda65efa93"
+            ]
+        ]
+    },
+    {
+        "id": "fb8da6d9a50c9b0c",
+        "type": "change",
+        "z": "9c8508be57c9f0b2",
+        "g": "5fb3bb4623a1533f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "measurement",
+                "pt": "msg",
+                "to": "raspberrypitt",
+                "tot": "str"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/enrique/raspberrypi/CPU\"]",
+                "pt": "msg",
+                "to": "payload.CPU",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/enrique/raspberrypi/temperatura\"]",
+                "pt": "msg",
+                "to": "payload.Temperatura",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/enrique/raspberrypi/memoria\"]",
+                "pt": "msg",
+                "to": "payload.Memoria",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 60,
+        "wires": [
+            [
+                "b76931bc6c024737"
+            ]
+        ]
+    },
+    {
+        "id": "17a0c8bda65efa93",
+        "type": "change",
+        "z": "9c8508be57c9f0b2",
+        "g": "5fb3bb4623a1533f",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "measurement",
+                "pt": "msg",
+                "to": "raspberrypi3",
+                "tot": "str"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/casa/raspberrypi3/CPU\"]",
+                "pt": "msg",
+                "to": "payload.CPU",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/casa/raspberrypi3/Temperatura\"]",
+                "pt": "msg",
+                "to": "payload.Temperatura",
+                "tot": "msg"
+            },
+            {
+                "t": "move",
+                "p": "payload[\"cursomqtt/casa/raspberrypi3/Memoria\"]",
+                "pt": "msg",
+                "to": "payload.Memoria",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 300,
+        "y": 120,
+        "wires": [
+            [
+                "b76931bc6c024737"
             ]
         ]
     }
