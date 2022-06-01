@@ -2,10 +2,59 @@
     {
         "id": "80ef1349e05a0eab",
         "type": "tab",
-        "label": "Flow 1",
+        "label": "BBDD Local",
         "disabled": false,
         "info": "",
         "env": []
+    },
+    {
+        "id": "8ffcd10d31f07cbf",
+        "type": "group",
+        "z": "80ef1349e05a0eab",
+        "name": "Gestión de Tablas",
+        "style": {
+            "fill": "#ffbfbf",
+            "label": true
+        },
+        "nodes": [
+            "8026c6300b9e0c4c",
+            "a4eafa7556bb7b8e",
+            "4a29227291f92080",
+            "79e82be227be63a4",
+            "a9c1843274cf3473",
+            "fee89fee6a1ef74e",
+            "8ba13418584fe6f3",
+            "5405d7c9efdbd4e5"
+        ],
+        "x": 14,
+        "y": 19,
+        "w": 492,
+        "h": 282
+    },
+    {
+        "id": "2f23fe46981e0267",
+        "type": "group",
+        "z": "80ef1349e05a0eab",
+        "name": "Inserta Datos en SQLite",
+        "style": {
+            "label": true,
+            "fill": "#ffbfbf"
+        },
+        "nodes": [
+            "80432c8079eb3106",
+            "e7010d6bd67f6655",
+            "cae255bd8461499d",
+            "c5629d6988eb4d75",
+            "0a9f862ee24d6605",
+            "fcabf4f26602db06",
+            "6a065deadd73fbe2",
+            "d9e3750492c15a7a",
+            "fdad1b13d2b01654"
+        ],
+        "x": 14,
+        "y": 319,
+        "w": 812,
+        "h": 222
     },
     {
         "id": "a4bef7ed8db80639",
@@ -14,104 +63,55 @@
         "mode": "RWC"
     },
     {
-        "id": "2542c44b886edf9f",
-        "type": "sqlitedb",
-        "db": "/home/pi/BBDD/datos15.db",
-        "mode": "RWC"
+        "id": "6e324f9b4a926545",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "aprendiendonodered.com",
+        "port": "8883",
+        "tls": "",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
     },
     {
         "id": "80432c8079eb3106",
         "type": "sqlite",
         "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
         "mydb": "a4bef7ed8db80639",
-        "sqlquery": "msg.topic",
-        "sql": "",
+        "sqlquery": "prepared",
+        "sql": "INSERT INTO \"datos_raspberry\" (\"fecha\", \"raspberry\",\"CPU\",\"Temperatura\",\"Memoria\") VALUES (CURRENT_TIMESTAMP, $raspberry, $CPU, $Temperatura, $Memoria);",
         "name": "",
-        "x": 460,
-        "y": 200,
+        "x": 720,
+        "y": 400,
         "wires": [
             [
-                "1feabbcbdeb852d3"
+                "cae255bd8461499d"
             ]
         ]
-    },
-    {
-        "id": "acb5479b46200079",
-        "type": "inject",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "15",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 110,
-        "y": 200,
-        "wires": [
-            [
-                "da8dece2be573a04"
-            ]
-        ]
-    },
-    {
-        "id": "da8dece2be573a04",
-        "type": "change",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "\"INSERT INTO datos_aleatorios ('fecha','dato') VALUES ('\"&$now('[M01]/[D01]/[Y0001] [H01]:[m01]:[s01]','+0200')&\"','\"&$random()&\"')\"",
-                "tot": "jsonata"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 280,
-        "y": 200,
-        "wires": [
-            [
-                "80432c8079eb3106"
-            ]
-        ]
-    },
-    {
-        "id": "1feabbcbdeb852d3",
-        "type": "debug",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 670,
-        "y": 200,
-        "wires": []
     },
     {
         "id": "8026c6300b9e0c4c",
         "type": "inject",
         "z": "80ef1349e05a0eab",
-        "name": "",
+        "g": "8ffcd10d31f07cbf",
+        "name": "Crea tabla",
         "props": [
             {
                 "p": "topic",
@@ -122,12 +122,12 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "CREATE TABLE \"datos_aleatorios\" ( \"id\" INTEGER UNIQUE, \"fecha\" TEXT, \"dato\" TEXT, PRIMARY KEY(\"id\" AUTOINCREMENT) );",
-        "x": 90,
-        "y": 80,
+        "topic": "CREATE TABLE \"datos_raspberry\" ( \"id\" INTEGER UNIQUE, \"fecha\" TEXT, \"raspberry\" TEXT, \"CPU\" REAL,\"Temperatura\" REAL,\"Memoria\" INTEGER, PRIMARY KEY(\"id\" AUTOINCREMENT) );",
+        "x": 180,
+        "y": 100,
         "wires": [
             [
-                "80432c8079eb3106"
+                "a9c1843274cf3473"
             ]
         ]
     },
@@ -135,130 +135,42 @@
         "id": "e7010d6bd67f6655",
         "type": "comment",
         "z": "80ef1349e05a0eab",
-        "name": "Inserta datos cada 15 segundos",
+        "g": "2f23fe46981e0267",
+        "name": "Inserta datos",
         "info": "",
-        "x": 170,
-        "y": 140,
+        "x": 110,
+        "y": 360,
         "wires": []
     },
     {
         "id": "a4eafa7556bb7b8e",
         "type": "comment",
         "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
         "name": "Crea la tabla necesaria para insertar los datos",
         "info": "",
-        "x": 190,
-        "y": 40,
+        "x": 210,
+        "y": 60,
         "wires": []
-    },
-    {
-        "id": "0480e06a43db4c0b",
-        "type": "change",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "SELECT * FROM datos_aleatorios",
-                "tot": "str"
-            },
-            {
-                "t": "delete",
-                "p": "payload",
-                "pt": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 280,
-        "y": 300,
-        "wires": [
-            [
-                "80432c8079eb3106"
-            ]
-        ]
-    },
-    {
-        "id": "56ef026a47e3eee4",
-        "type": "inject",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 100,
-        "y": 300,
-        "wires": [
-            [
-                "0480e06a43db4c0b",
-                "0480e06a43db4c0b"
-            ]
-        ]
     },
     {
         "id": "fee89fee6a1ef74e",
         "type": "comment",
         "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
         "name": "Saca todos los datos de la tabla",
         "info": "",
         "x": 170,
-        "y": 260,
+        "y": 220,
         "wires": []
     },
     {
-        "id": "f15b75ac8e0f72c7",
-        "type": "change",
-        "z": "80ef1349e05a0eab",
-        "name": "",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "SELECT * FROM datos_aleatorios WHERE dato > 0.8",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 280,
-        "y": 400,
-        "wires": [
-            [
-                "80432c8079eb3106"
-            ]
-        ]
-    },
-    {
-        "id": "1f9107834c8ad0ef",
+        "id": "4a29227291f92080",
         "type": "inject",
         "z": "80ef1349e05a0eab",
-        "name": "",
+        "g": "8ffcd10d31f07cbf",
+        "name": "Borra datos tabla",
         "props": [
-            {
-                "p": "payload"
-            },
             {
                 "p": "topic",
                 "vt": "str"
@@ -268,26 +180,302 @@
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 100,
-        "y": 400,
+        "topic": "DELETE FROM datos_raspberry",
+        "x": 180,
+        "y": 180,
         "wires": [
             [
-                "f15b75ac8e0f72c7",
-                "f15b75ac8e0f72c7"
+                "a9c1843274cf3473"
             ]
         ]
     },
     {
-        "id": "992d3606222d9d65",
+        "id": "cae255bd8461499d",
+        "type": "debug",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "79e82be227be63a4",
         "type": "comment",
         "z": "80ef1349e05a0eab",
-        "name": "Consulta los datos mayores que 0.8",
+        "g": "8ffcd10d31f07cbf",
+        "name": "Borra datos tabla",
         "info": "",
-        "x": 180,
-        "y": 360,
+        "x": 120,
+        "y": 140,
         "wires": []
+    },
+    {
+        "id": "c5629d6988eb4d75",
+        "type": "mqtt in",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "topic": "cursomqtt/enrique/raspberrypi/#",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6e324f9b4a926545",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 170,
+        "y": 400,
+        "wires": [
+            [
+                "fcabf4f26602db06"
+            ]
+        ]
+    },
+    {
+        "id": "0a9f862ee24d6605",
+        "type": "mqtt in",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "topic": "cursomqtt/casa/raspberrypi3/#",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "6e324f9b4a926545",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 160,
+        "y": 460,
+        "wires": [
+            [
+                "6a065deadd73fbe2"
+            ]
+        ]
+    },
+    {
+        "id": "a9c1843274cf3473",
+        "type": "sqlite",
+        "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
+        "mydb": "a4bef7ed8db80639",
+        "sqlquery": "msg.topic",
+        "sql": "",
+        "name": "",
+        "x": 400,
+        "y": 160,
+        "wires": [
+            [
+                "5405d7c9efdbd4e5"
+            ]
+        ]
+    },
+    {
+        "id": "8ba13418584fe6f3",
+        "type": "inject",
+        "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
+        "name": "Todos los datos",
+        "props": [
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "SELECT * FROM datos_raspberry",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "a9c1843274cf3473"
+            ]
+        ]
+    },
+    {
+        "id": "5405d7c9efdbd4e5",
+        "type": "debug",
+        "z": "80ef1349e05a0eab",
+        "g": "8ffcd10d31f07cbf",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 410,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "fcabf4f26602db06",
+        "type": "join",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 370,
+        "y": 400,
+        "wires": [
+            [
+                "d9e3750492c15a7a"
+            ]
+        ]
+    },
+    {
+        "id": "6a065deadd73fbe2",
+        "type": "join",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "3",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 370,
+        "y": 460,
+        "wires": [
+            [
+                "fdad1b13d2b01654"
+            ]
+        ]
+    },
+    {
+        "id": "d9e3750492c15a7a",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.$raspberry",
+                "pt": "msg",
+                "to": "raspberrypitt",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "params.$CPU",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/enrique/raspberrypi/CPU\"]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params.$Temperatura",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/enrique/raspberrypi/temperatura\"]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params.$Memoria",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/enrique/raspberrypi/memoria\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 400,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
+    },
+    {
+        "id": "fdad1b13d2b01654",
+        "type": "change",
+        "z": "80ef1349e05a0eab",
+        "g": "2f23fe46981e0267",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "params.$raspberry",
+                "pt": "msg",
+                "to": "raspberrypi3",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "params.$CPU",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/casa/raspberrypi3/CPU\"]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params.$Temperatura",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/casa/raspberrypi3/Temperatura\"]",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "params.$Memoria",
+                "pt": "msg",
+                "to": "payload[\"cursomqtt/casa/raspberrypi3/Memoria\"]",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 520,
+        "y": 460,
+        "wires": [
+            [
+                "80432c8079eb3106"
+            ]
+        ]
     }
 ]
