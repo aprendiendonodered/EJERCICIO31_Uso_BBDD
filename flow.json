@@ -395,6 +395,7 @@
         "id": "c5629d6988eb4d75",
         "type": "mqtt in",
         "z": "80ef1349e05a0eab",
+        "d": true,
         "g": "2f23fe46981e0267",
         "name": "",
         "topic": "cursomqtt/enrique/raspberrypi/#",
